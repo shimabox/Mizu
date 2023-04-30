@@ -438,9 +438,10 @@ class H2oSimulator {
                     _h.isMerged = true;
                     _h.reRender(this.ctx);
 
-                    atoms.splice(atoms.indexOf(target), 1);
-                    atoms.push(this.factory('H'));
-                    target.clear();
+                    // 衝突した水素原子は入れ替える
+                    const targetIndex = atoms.indexOf(target);
+                    atoms[targetIndex].clear();
+                    atoms[targetIndex] = this.factory('H');
 
                     continue;
                 }
@@ -462,13 +463,15 @@ class H2oSimulator {
 
             for (const _h2 of hAtoms.filter(h => h.isMerged)) {
                 if (_o.isHit(_h2.x, _h2.y, _h2.r)) {
-                    atoms.splice(atoms.indexOf(_o), 1);
-                    atoms.push(this.factory('O'));
-                    _o.clear();
+                    // 水になった酸素原子は詰め替える
+                    const oIndex = atoms.indexOf(_o);
+                    atoms[oIndex].clear();
+                    atoms[oIndex] = this.factory('O');
 
-                    hAtoms.splice(hAtoms.indexOf(_h2), 1);
-                    hAtoms.push(this.factory('H'));
-                    _h2.clear();
+                    // 水になった水素原子は詰め替える
+                    const h2Index = hAtoms.indexOf(_h2);
+                    hAtoms[h2Index].clear();
+                    hAtoms[h2Index] = this.factory('H');
 
                     h2oAtoms.push(this.factory('H2o', new Coordinate(_o.x, _o.y)));
                 }
