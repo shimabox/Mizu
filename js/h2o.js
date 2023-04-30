@@ -422,7 +422,8 @@ class H2oSimulator {
      * @param {H[]} atoms - 水素原子の配列
      */
     renderH(atoms) {
-        for (const _h of atoms) {
+        for (let i = 0; i < atoms.length; i++) {
+            const _h = atoms[i];
             _h.updatePosition();
             _h.render(this.ctx);
 
@@ -430,7 +431,8 @@ class H2oSimulator {
                 continue;
             }
 
-            for (const target of atoms.slice(atoms.indexOf(_h) + 1)) {
+            for (let j = i + 1; j < atoms.length; j++) {
+                const target = atoms[j];
                 if (target.isMerged) {
                     continue;
                 }
@@ -439,11 +441,10 @@ class H2oSimulator {
                     _h.reRender(this.ctx);
 
                     // 衝突した水素原子は入れ替える
-                    const targetIndex = atoms.indexOf(target);
-                    atoms[targetIndex].clear();
-                    atoms[targetIndex] = this.createAtom('H');
+                    target.clear();
+                    atoms[j] = this.createAtom('H');
 
-                    continue;
+                    break;
                 }
             }
         }
