@@ -462,7 +462,11 @@ class H2oSimulator {
             _o.updatePosition();
             _o.render(this.ctx);
 
-            for (const _h2 of hAtoms.filter(h => h.isMerged)) {
+            for (const _h2 of hAtoms) {
+                if (!_h2.isMerged) {
+                    continue;
+                }
+
                 if (_o.isHit(_h2.x, _h2.y, _h2.r)) {
                     // 水になった酸素原子は詰め替える
                     const oIndex = atoms.indexOf(_o);
