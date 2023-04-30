@@ -485,15 +485,13 @@ class H2oSimulator {
      * @param {H2o[]} atoms - 水分子の配列
      */
     renderH2o(atoms) {
-        for (const _h2o of atoms) {
+        for (const _h2o of atoms.slice().reverse()) {
             _h2o.updatePosition();
             _h2o.render(this.ctx);
 
-            for (const __h2o of atoms.slice().reverse()) {
-                if (__h2o.deleteFlag === true) {
-                    atoms.splice(atoms.indexOf(__h2o), 1);
-                    __h2o.clear();
-                }
+            if (_h2o.deleteFlag === true) {
+                atoms.splice(atoms.indexOf(_h2o), 1);
+                _h2o.clear();
             }
         }
     }
