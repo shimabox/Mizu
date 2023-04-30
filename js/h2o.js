@@ -304,7 +304,6 @@ class H2o extends Atom {
         ctx.shadowColor = "#007fff";
         ctx.shadowOffsetX = 1;
         ctx.shadowOffsetY = 1;
-        ctx.shadowBlur = 5;
         grad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
         grad.addColorStop(1, 'rgba(0, 127, 255, 1)');
         ctx.fillStyle = grad;
