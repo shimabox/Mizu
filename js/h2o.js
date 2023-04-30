@@ -396,18 +396,18 @@ class H2oSimulator {
      */
     init(hLength, oLength) {
         for (let i = 0; i < hLength; i++) {
-            this.h.push(this.factory('H'));
+            this.h.push(this.createAtom('H'));
         }
         for (let i = 0; i < oLength; i++) {
-            this.o.push(this.factory('O'));
+            this.o.push(this.createAtom('O'));
         }
     }
 
     /**
-     * シミュレーションを開始します。
+     * 1フレームずつ描画します。
      * Atomの位置の更新と衝突判定を行い、キャンバスにAtomを描画します。
      */
-    start() {
+    renderFrame() {
         this.ctx.fillStyle = "#fff";
         this.ctx.fillRect(0, 0, this.cw, this.ch);
 
@@ -441,7 +441,7 @@ class H2oSimulator {
                     // 衝突した水素原子は入れ替える
                     const targetIndex = atoms.indexOf(target);
                     atoms[targetIndex].clear();
-                    atoms[targetIndex] = this.factory('H');
+                    atoms[targetIndex] = this.createAtom('H');
 
                     continue;
                 }
@@ -466,14 +466,14 @@ class H2oSimulator {
                     // 水になった酸素原子は詰め替える
                     const oIndex = atoms.indexOf(_o);
                     atoms[oIndex].clear();
-                    atoms[oIndex] = this.factory('O');
+                    atoms[oIndex] = this.createAtom('O');
 
                     // 水になった水素原子は詰め替える
                     const h2Index = hAtoms.indexOf(_h2);
                     hAtoms[h2Index].clear();
-                    hAtoms[h2Index] = this.factory('H');
+                    hAtoms[h2Index] = this.createAtom('H');
 
-                    h2oAtoms.push(this.factory('H2o', new Coordinate(_o.x, _o.y)));
+                    h2oAtoms.push(this.createAtom('H2o', new Coordinate(_o.x, _o.y)));
                 }
             }
         }
@@ -505,7 +505,7 @@ class H2oSimulator {
      * @param {Coordinate} [coordinate] - 座標(オプション)。'H2o'の場合、発生した場所の座標オブジェクトが渡ってきます。
      * @returns {H|O|H2o} 生成されたAtomオブジェクト
      */
-    factory(atomName, coordinate) {
+    createAtom(atomName, coordinate) {
         let atom;
         switch (atomName) {
             case 'H':
@@ -525,7 +525,8 @@ class H2oSimulator {
     }
 
     /**
-     * 画面サイズに基づいて適切なスケール係数を返します
+     * 画面サイズに基づいて適切なスケール係数を返します。
+     * これにより、デバイスの画面サイズに応じて適切な数の原子が表示されます。
      *
      * @returns {number} スケール係数
      */
@@ -546,7 +547,7 @@ window.addEventListener('DOMContentLoaded', (e) => {
     const scale = simulator.getScale();
     simulator.init(30 * scale, 50 * scale);
     const loop = () => {
-        simulator.start();
+        simulator.renderFrame();
         requestAnimationFrame(loop);
     };
     loop();
