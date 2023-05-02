@@ -278,7 +278,7 @@ class H2o extends Atom {
      */
     constructor(sw, sh) {
         super(sw, sh);
-        this.deleteFlag = false;
+        this.isDeleted = false;
     }
 
     /**
@@ -330,7 +330,7 @@ class H2o extends Atom {
         this.y += Math.sin((this.x + dx) / 100);
 
         if (this.y >= this.sh) {
-            this.deleteFlag = true;
+            this.isDeleted = true;
         }
     }
 
@@ -340,7 +340,7 @@ class H2o extends Atom {
      * @param {CanvasRenderingContext2D} ctx - キャンバスのコンテキスト
      */
     render(ctx) {
-        if (this.deleteFlag) {
+        if (this.isDeleted) {
             return;
         }
         ctx.drawImage(this.img, this.x, this.y);
@@ -496,7 +496,7 @@ class H2oSimulator {
             _h2o.updatePosition();
             _h2o.render(this.ctx);
 
-            if (_h2o.deleteFlag === true) {
+            if (_h2o.isDeleted) {
                 _h2o.clear();
                 atoms.splice(i, 1);
             }
