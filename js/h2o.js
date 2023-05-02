@@ -81,9 +81,8 @@ class Atom {
         if (this.sw < 768) {
             return 1.0;
         }
-        if (this.sw >= 768) {
-            return 1.2;
-        }
+
+        return 1.2;
     }
 
     /**
