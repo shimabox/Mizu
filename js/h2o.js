@@ -184,8 +184,10 @@ class H extends Atom {
     constructor(sw, sh) {
         super(sw, sh);
         this.isMerged = false;
+
         this._name = 'H';
         this._mergedName = 'H2';
+        this._isH2Rendered = false;
     }
 
     /**
@@ -232,15 +234,20 @@ class H extends Atom {
     }
 
     /**
-     * 水素原子を再描画します。
+     * 水素原子を描画します。
      * isMerged プロパティが true の場合、H2 として描画されます。
+     * H2 として描画されたら、_isH2Rendered プロパティをtrueとします。
+     * (_isH2Rendered プロパティをtrueとするのは、isMergedがtrueのときに描画の初期化を防ぐためです)
      *
      * @param {CanvasRenderingContext2D} ctx - キャンバスの 2D 描画コンテキスト
      */
-    reRender(ctx) {
-        this.clear();
-        this.initializeDrawingProperties(new Coordinate(this.x, this.y));
-        this.render(ctx);
+    render(ctx) {
+        if (this.isMerged && !this._isH2Rendered) { // TODO: _isH2Renderedでの制御はワークアラウンドっぽいのでなんとかしたい
+            this._isH2Rendered = true;
+            this.clear();
+            this.initializeDrawingProperties(new Coordinate(this.x, this.y));
+        }
+        super.render(ctx);
     }
 };
 
@@ -436,7 +443,7 @@ class H2oSimulator {
                 }
                 if (_h.isHit(target.x, target.y, target.r)) {
                     _h.isMerged = true;
-                    _h.reRender(this.ctx);
+                    _h.render(this.ctx);
 
                     // 衝突した水素原子は入れ替える
                     target.clear();
