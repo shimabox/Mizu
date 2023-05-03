@@ -1,8 +1,9 @@
-# h2o
-This script draws water in js.
+# Mizu
 
-![スクリーンショット 2023-04-30 19 02 39](https://user-images.githubusercontent.com/2285196/235347304-c67e82d0-2bd9-4770-9a79-18e4b432102e.png)
+`Mizu` is a joke script that simulates water(H2o) generation in JavaScript.
+
+![Mizu](https://user-images.githubusercontent.com/2285196/235814876-f8d95786-243d-4187-8505-feed8cdbac7a.png)
 
 ## Demo
 
-https://shimabox.github.io/h2o/
+https://shimabox.github.io/Mizu/

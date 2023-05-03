@@ -371,12 +371,12 @@ class Coordinate {
 }
 
 /**
- * H2oSimulator クラス
- * H2oのシミュレーションを管理および制御するためのクラスです。
+ * MizuSimulator クラス
+ * 水(H2o)のシミュレーションを管理および制御するためのクラスです。
  */
-class H2oSimulator {
+class MizuSimulator {
     /**
-     * Main クラスのコンストラクタ
+     * MizuSimulatorのインスタンスを生成
      */
     constructor() {
         // atom
@@ -555,7 +555,7 @@ class H2oSimulator {
 }
 
 window.addEventListener('DOMContentLoaded', (e) => {
-    const simulator = new H2oSimulator();
+    const simulator = new MizuSimulator();
     const scale = simulator.getScale();
     simulator.init(30 * scale, 50 * scale);
     const loop = () => {
