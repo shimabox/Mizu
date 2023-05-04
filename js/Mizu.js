@@ -3,6 +3,61 @@
  */
 class Atom {
     /**
+     * @type {CanvasRenderingContext2D} 描画コンテキスト
+     */
+    ctx;
+
+    /**
+     * @type {number} x座標
+     */
+    x = 0;
+
+    /**
+     * @type {number} y座標
+     */
+    y = 0;
+
+    /**
+     * @type {number} 横幅
+     */
+    w = 0;
+
+    /**
+     * @type {number} 縦幅
+     */
+    h = 0;
+
+    /**
+     * @type {number} 半径
+     */
+    r = 0;
+
+    /**
+     * @type {string} 色
+     */
+    color = '';
+
+    /**
+     * @type {HTMLImageElement} 画像要素
+     */
+    img;
+
+    /**
+     * @type {number} x軸の速度
+     */
+    vx = 0;
+
+    /**
+     * @type {number} y軸の速度
+     */
+    vy = 0;
+
+    /**
+     * @type {string} 名前
+     */
+    _name = '';
+
+    /**
      * Atom クラスのインスタンスを生成
      *
      * @param {number} sw - キャンバスの幅
@@ -11,10 +66,6 @@ class Atom {
     constructor(sw, sh) {
         this.sw = sw;
         this.sh = sh;
-        this.vx = 0;
-        this.vy = 0;
-
-        this._name = '';
     }
 
     /**
@@ -43,7 +94,6 @@ class Atom {
         const img = document.createElement('img');
         img.src = canvas.toDataURL();
 
-        this.canvas = canvas;
         this.ctx = ctx;
         this.x = coordinate.x;
         this.y = coordinate.y;
@@ -176,6 +226,21 @@ class Atom {
  */
 class H extends Atom {
     /**
+     * @type {boolean} 結合済みかどうか
+     */
+    isMerged = false;
+
+    /**
+     * @type {string} 結合後の名前
+     */
+    _mergedName = '';
+
+    /**
+     * @type {boolean} 結合後の状態で描画済みかどうか
+     */
+    _isH2Rendered = false;
+
+    /**
      * H クラスのインスタンスを生成
      *
      * @param {number} sw - キャンバスの幅
@@ -278,6 +343,11 @@ class O extends Atom {
  */
 class H2o extends Atom {
     /**
+     * @type {boolean} 削除済み(画面から見えなくなっている)かどうか
+     */
+    isDeleted = false;
+
+    /**
      * H2oクラスのインスタンスを生成
      *
      * @param {number} sw - キャンバスの幅
@@ -318,7 +388,6 @@ class H2o extends Atom {
         const img = document.createElement('img');
         img.src = canvas.toDataURL();
 
-        this.canvas = canvas;
         this.ctx = ctx;
         this.x = coordinate.x;
         this.y = coordinate.y;
@@ -359,6 +428,16 @@ class H2o extends Atom {
  */
 class Coordinate {
     /**
+     * @type {number} x座標
+     */
+    x = 0;
+
+    /**
+     * @type {number} y座標
+     */
+    y = 0;
+
+    /**
      * インスタンスを生成
      *
      * @param {number} x - x座標
@@ -376,14 +455,39 @@ class Coordinate {
  */
 class MizuSimulator {
     /**
+     * @type {H[]} 水素原子の配列
+     */
+    h = [];
+
+    /**
+     * @type {O[]} 酸素原子の配列
+     */
+    o = [];
+
+    /**
+     * @type {H2o[]} 水分子の配列
+     */
+    h2o = [];
+
+    /**
+     * @type {number} キャンバスの幅
+     */
+    cw;
+
+    /**
+     * @type {number} キャンバスの高さ
+     */
+    ch;
+
+    /**
+     * @type {CanvasRenderingContext2D} キャンバスの描画コンテキスト
+     */
+    ctx;
+
+    /**
      * MizuSimulatorのインスタンスを生成
      */
     constructor() {
-        // atom
-        this.h = [];
-        this.o = [];
-        this.h2o = [];
-
         // canvas
         const c = document.querySelector('#myCanvas');
         c.width = window.innerWidth;
