@@ -485,6 +485,16 @@ class MizuSimulator {
     ctx;
 
     /**
+     * @type {HTMLCanvasElement} ダブルバッファリング用のオフスクリーンキャンバス
+     */
+    bufferCanvas;
+
+    /**
+     * @type {CanvasRenderingContext2D} オフスクリーンキャンバスの描画コンテキスト
+     */
+    bufferCtx;
+
+    /**
      * MizuSimulatorのインスタンスを生成
      */
     constructor() {
@@ -495,6 +505,12 @@ class MizuSimulator {
         this.cw = c.width;
         this.ch = c.height;
         this.ctx = c.getContext('2d');
+
+        // ダブルバッファリング
+        this.bufferCanvas = document.createElement('canvas');
+        this.bufferCanvas.width = this.cw;
+        this.bufferCanvas.height = this.ch;
+        this.bufferCtx = this.bufferCanvas.getContext('2d');
     }
 
     /**
@@ -517,12 +533,15 @@ class MizuSimulator {
      * Atomの位置の更新と衝突判定を行い、キャンバスにAtomを描画します。
      */
     renderFrame() {
-        this.ctx.fillStyle = "#fff";
-        this.ctx.fillRect(0, 0, this.cw, this.ch);
+        this.bufferCtx.fillStyle = "#fff";
+        this.bufferCtx.fillRect(0, 0, this.cw, this.ch);
 
         this.renderH(this.h);
         this.renderO(this.o, this.h, this.h2o);
         this.renderH2o(this.h2o);
+
+        // オフスクリーンキャンバスからオンスクリーンキャンバスに描画
+        this.ctx.drawImage(this.bufferCanvas, 0, 0);
     }
 
     /**
@@ -534,7 +553,7 @@ class MizuSimulator {
         for (let i = 0; i < atoms.length; i++) {
             const _h = atoms[i];
             _h.updatePosition();
-            _h.render(this.ctx);
+            _h.render(this.bufferCtx);
 
             if (_h.isMerged) {
                 continue;
@@ -547,7 +566,7 @@ class MizuSimulator {
                 }
                 if (_h.isHit(target.x, target.y, target.r)) {
                     _h.isMerged = true;
-                    _h.render(this.ctx);
+                    _h.render(this.bufferCtx);
 
                     // 衝突した水素原子は入れ替える
                     target.clear();
@@ -569,7 +588,7 @@ class MizuSimulator {
     renderO(atoms, hAtoms, h2oAtoms) {
         for (const _o of atoms) {
             _o.updatePosition();
-            _o.render(this.ctx);
+            _o.render(this.bufferCtx);
 
             for (const _h2 of hAtoms) {
                 if (!_h2.isMerged) {
@@ -605,7 +624,7 @@ class MizuSimulator {
         for (let i = atoms.length - 1; i >= 0; i--) {
             const _h2o = atoms[i];
             _h2o.updatePosition();
-            _h2o.render(this.ctx);
+            _h2o.render(this.bufferCtx);
 
             if (_h2o.isDeleted) {
                 _h2o.clear();
