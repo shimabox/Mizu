@@ -355,7 +355,6 @@ class H2o extends Atom {
      */
     constructor(sw, sh) {
         super(sw, sh);
-        this.isDeleted = false;
     }
 
     /**
