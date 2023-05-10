@@ -11,5 +11,7 @@ module.exports = {
     sourceType: 'module'
   },
   rules: {
+    "semi": ["error", "always"],
+    "no-console": "error"
   }
 }
