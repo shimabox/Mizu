@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --config .prettierrc.yml --check './**/*.{js,ts}'",
-    "format:fix": "prettier --config .prettierrc.yml --write './**/*.{js,ts}'"
+    "format:fix": "prettier --config .prettierrc.yml --write './**/*.{js,ts}'",
+    "lint": "eslint './**/*.{js,ts}'",
+    "lint:fix": "eslint './**/*.{js,ts}' --fix"
   },
   "keywords": [],
   "author": "",
