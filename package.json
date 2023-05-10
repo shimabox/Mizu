@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier-format": "prettier --config .prettierrc.yml 'src/**/*.ts' --write"
+    "prettier-format": "prettier --config .prettierrc.yml './**/*.{js,ts}' --write"
   },
   "keywords": [],
   "author": "",
