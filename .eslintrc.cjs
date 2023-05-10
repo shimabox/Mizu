@@ -13,7 +13,9 @@ module.exports = {
   },
   rules: {
     "semi": ["error", "always"],
+    "@typescript-eslint/semi": ["error", "always"],
     "space-before-function-paren": ["error", "never"],
+    "@typescript-eslint/space-before-function-paren": ["error", "never"],
     "no-console": "error"
   }
 }
