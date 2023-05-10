@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prettier-format": "prettier --config .prettierrc.yml './**/*.{js,ts}' --write"
+    "format": "prettier --config .prettierrc.yml --check './**/*.{js,ts}'",
+    "format:fix": "prettier --config .prettierrc.yml --write './**/*.{js,ts}'"
   },
   "keywords": [],
   "author": "",
