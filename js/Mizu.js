@@ -360,7 +360,7 @@ class H2o extends Atom {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     const color = '#007fff';
-    const w = (Math.random() * 10 + 15) * this.getScale();
+    const w = (Math.random() * 10 + 18) * this.getScale();
     const offset = w * 0.4;
     const gx = w / 2 - offset;
     const gy = w / 2 - offset;
@@ -394,9 +394,8 @@ class H2o extends Atom {
    */
   updatePosition() {
     const dx = Math.random() * 5;
-    this.y += 2;
     this.x += Math.cos((this.y + dx) / 100);
-    this.y += Math.sin((this.x + dx) / 100);
+    this.y += this.w * 0.1;
 
     if (this.y >= this.sh) {
       this.isDeleted = true;
