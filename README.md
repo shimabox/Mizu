@@ -2,7 +2,7 @@
 
 `Mizu` is a joke script that simulates water(H2o) generation in JavaScript.
 
-![Mizu](https://user-images.githubusercontent.com/2285196/235814876-f8d95786-243d-4187-8505-feed8cdbac7a.png)
+![Mizu](https://github.com/shimabox/Mizu/assets/2285196/b5f3b538-be54-44ee-b4ea-3ce1679587ae)
 
 ## Demo
 
