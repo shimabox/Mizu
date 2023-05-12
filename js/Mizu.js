@@ -344,7 +344,7 @@ class H2o extends Atom {
   /**
    * @type {boolean} 削除済み(画面から見えなくなっている)かどうか
    */
-  isDeleted = false;
+  #isDeleted = false;
 
   /**
    * 水分子の描画プロパティを初期化
@@ -393,20 +393,16 @@ class H2o extends Atom {
     this.y += this.w * 0.1;
 
     if (this.y >= this.sh) {
-      this.isDeleted = true;
+      this.#isDeleted = true;
     }
   }
 
   /**
-   * 水分子を描画
-   *
-   * @param {CanvasRenderingContext2D} ctx - キャンバスのコンテキスト
+   * 削除済み(画面から見えなくなっている)かどうか
+   * @returns {boolean}
    */
-  render(ctx) {
-    if (this.isDeleted) {
-      return;
-    }
-    ctx.drawImage(this.img, this.x, this.y);
+  isDeleted() {
+    return this.#isDeleted;
   }
 }
 
@@ -613,12 +609,14 @@ class MizuSimulator {
     for (let i = atoms.length - 1; i >= 0; i--) {
       const _h2o = atoms[i];
       _h2o.updatePosition();
-      _h2o.render(this.bufferCtx);
 
-      if (_h2o.isDeleted) {
+      if (_h2o.isDeleted()) {
         _h2o.clear();
         atoms.splice(i, 1);
+        continue;
       }
+
+      _h2o.render(this.bufferCtx);
     }
   }
 
