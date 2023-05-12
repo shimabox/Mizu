@@ -43,19 +43,19 @@ class Atom {
   img;
 
   /**
+   * @type {string} 名前
+   */
+  name = '';
+
+  /**
    * @type {number} x軸の速度
    */
-  vx = 0;
+  #vx = 0;
 
   /**
    * @type {number} y軸の速度
    */
-  vy = 0;
-
-  /**
-   * @type {string} 名前
-   */
-  _name = '';
+  #vy = 0;
 
   /**
    * Atom クラスのインスタンスを生成
@@ -110,7 +110,7 @@ class Atom {
    * @return {string} Atomの名前
    */
   getName() {
-    return this._name;
+    return this.name;
   }
 
   /**
@@ -154,19 +154,19 @@ class Atom {
     const randomAngle = 2 * Math.PI * Math.random();
     const speedFactor = 0.075;
 
-    this.vx += speedFactor * Math.cos(randomAngle);
-    this.vy += speedFactor * Math.sin(randomAngle);
+    this.#vx += speedFactor * Math.cos(randomAngle);
+    this.#vy += speedFactor * Math.sin(randomAngle);
 
     // 速度を最大値に制限する
     const maxSpeed = 1.05;
-    const currentSpeed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+    const currentSpeed = Math.sqrt(this.#vx * this.#vx + this.#vy * this.#vy);
     if (currentSpeed > maxSpeed) {
-      this.vx = (this.vx / currentSpeed) * maxSpeed;
-      this.vy = (this.vy / currentSpeed) * maxSpeed;
+      this.#vx = (this.#vx / currentSpeed) * maxSpeed;
+      this.#vy = (this.#vy / currentSpeed) * maxSpeed;
     }
 
-    this.x += this.vx;
-    this.y += this.vy;
+    this.x += this.#vx;
+    this.y += this.#vy;
 
     if (this.x > sw + w / 2) {
       // x座標が画面の右端を超えた場合
@@ -235,12 +235,12 @@ class H extends Atom {
   /**
    * @type {string} 結合後の名前
    */
-  _mergedName = '';
+  #mergedName = '';
 
   /**
    * @type {boolean} 結合後の状態で描画済みかどうか
    */
-  _isH2Rendered = false;
+  #isH2Rendered = false;
 
   /**
    * H クラスのインスタンスを生成
@@ -251,9 +251,9 @@ class H extends Atom {
   constructor(sw, sh) {
     super(sw, sh);
 
-    this._name = 'H';
-    this._mergedName = 'H2';
-    this._isH2Rendered = false;
+    this.name = 'H';
+    this.#mergedName = 'H2';
+    this.#isH2Rendered = false;
   }
 
   /**
@@ -263,7 +263,7 @@ class H extends Atom {
    * @returns {string} 水素原子の名前
    */
   getName() {
-    return this.isMerged ? this._mergedName : this._name;
+    return this.isMerged ? this.#mergedName : this.name;
   }
 
   /**
@@ -299,15 +299,15 @@ class H extends Atom {
   /**
    * 水素原子を描画します。
    * isMerged プロパティが true の場合、H2 として描画されます。
-   * H2 として描画されたら、_isH2Rendered プロパティをtrueとします。
-   * (_isH2Rendered プロパティをtrueとするのは、isMergedがtrueのときに描画の初期化を防ぐためです)
+   * H2 として描画されたら、isH2Rendered プロパティをtrueとします。
+   * (isH2Rendered プロパティをtrueとするのは、isMergedがtrueのときに描画の初期化を防ぐためです)
    *
    * @param {CanvasRenderingContext2D} ctx - キャンバスの 2D 描画コンテキスト
    */
   render(ctx) {
-    if (this.isMerged && !this._isH2Rendered) {
-      // TODO: _isH2Renderedでの制御はワークアラウンドっぽいのでなんとかしたい
-      this._isH2Rendered = true;
+    if (this.isMerged && !this.#isH2Rendered) {
+      // TODO: isH2Renderedでの制御はワークアラウンドっぽいのでなんとかしたい
+      this.#isH2Rendered = true;
       this.clear();
       this.initializeDrawingProperties(new Coordinate(this.x, this.y));
     }
@@ -330,7 +330,7 @@ class O extends Atom {
    */
   constructor(sw, sh) {
     super(sw, sh);
-    this._name = 'O';
+    this.name = 'O';
   }
 }
 
