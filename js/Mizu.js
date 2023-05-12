@@ -78,7 +78,7 @@ class Atom {
     const color = this.getColor();
     const canvas = document.createElement('canvas');
 
-    let ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.font = 24 * this.getScale() + 'px Arial';
@@ -89,7 +89,7 @@ class Atom {
     ctx.shadowBlur = 5;
 
     const txtSize = ctx.measureText(name).width;
-    ctx = this.fillText(ctx, name, txtSize);
+    this.fillText(ctx, name, txtSize);
 
     const img = document.createElement('img');
     img.src = canvas.toDataURL();
@@ -141,11 +141,9 @@ class Atom {
    * @param {CanvasRenderingContext2D} ctx - 描画コンテキスト
    * @param {string} name - 描画するテキスト
    * @param {number} size - テキストのサイズ
-   * @return {CanvasRenderingContext2D} 描画後のコンテキスト
    */
   fillText(ctx, name, size) {
     ctx.fillText(name, size, size);
-    return ctx;
   }
 
   /**
@@ -287,18 +285,16 @@ class H extends Atom {
    * @param {CanvasRenderingContext2D} ctx - キャンバスのコンテキスト
    * @param {string} name - 描画するテキスト
    * @param {number} size - テキストのサイズ
-   * @returns {CanvasRenderingContext2D} テキストを描画したコンテキスト
    */
   fillText(ctx, name, size) {
     if (this.isMerged) {
       ctx.fillText('H', size / 2, size / 2);
       ctx.font = 18 * this.getScale() + 'px Arial';
       ctx.fillText('2', size, Math.floor(size * (13 / 24)));
-      return ctx;
+      return;
     }
 
     ctx.fillText(name, size, size);
-    return ctx;
   }
 
   /**
