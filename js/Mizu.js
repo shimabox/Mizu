@@ -250,7 +250,6 @@ class H extends Atom {
    */
   constructor(sw, sh) {
     super(sw, sh);
-    this.isMerged = false;
 
     this._name = 'H';
     this._mergedName = 'H2';
