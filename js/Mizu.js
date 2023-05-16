@@ -211,13 +211,6 @@ class Atom {
   render(ctx) {
     ctx.drawImage(this.img, this.x, this.y);
   }
-
-  /**
-   * Atomの描画を消去
-   */
-  clear() {
-    this.ctx.clearRect(this.x, this.y, this.w, this.h);
-  }
 }
 
 /**
@@ -308,7 +301,6 @@ class H extends Atom {
     if (this.isMerged && !this.#isH2Rendered) {
       // TODO: isH2Renderedでの制御はワークアラウンドっぽいのでなんとかしたい
       this.#isH2Rendered = true;
-      this.clear();
       this.initializeDrawingProperties(new Coordinate(this.x, this.y));
     }
     super.render(ctx);
@@ -552,7 +544,6 @@ class MizuSimulator {
           _h.render(this.bufferCtx);
 
           // 衝突した水素原子は入れ替える
-          target.clear();
           atoms[j] = this.createAtom('H');
 
           break;
@@ -581,17 +572,13 @@ class MizuSimulator {
         if (_o.isHit(_h2.x, _h2.y, _h2.r)) {
           // 水になった酸素原子は詰め替える
           const oIndex = atoms.indexOf(_o);
-          if (oIndex >= 0) {
-            // ループ中にすでに消えているケースがある
-            atoms[oIndex].clear();
+          if (oIndex >= 0) { // ループ中にすでに消えているケースがある
             atoms[oIndex] = this.createAtom('O');
           }
 
           // 水になった水素原子は詰め替える
           const h2Index = hAtoms.indexOf(_h2);
-          if (h2Index >= 0) {
-            // ループ中にすでに消えているケースがある
-            hAtoms[h2Index].clear();
+          if (h2Index >= 0) { // ループ中にすでに消えているケースがある
             hAtoms[h2Index] = this.createAtom('H');
           }
           h2oAtoms.push(this.createAtom('H2o', new Coordinate(_o.x, _o.y)));
@@ -611,7 +598,6 @@ class MizuSimulator {
       _h2o.updatePosition();
 
       if (_h2o.isDeleted()) {
-        _h2o.clear();
         atoms.splice(i, 1);
         continue;
       }
