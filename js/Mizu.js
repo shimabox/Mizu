@@ -81,12 +81,12 @@ class Atom {
     const ctx = canvas.getContext('2d');
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = 24 * this.getScale() + 'px Arial';
+    ctx.font = 24 * this.getScale() + 'px sans-serif';
     ctx.fillStyle = color;
     ctx.shadowColor = '#888';
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 2;
-    ctx.shadowBlur = 5;
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 1;
+    ctx.shadowBlur = 1;
 
     const txtSize = ctx.measureText(name).width;
     this.fillText(ctx, name, txtSize);
@@ -281,8 +281,8 @@ class H extends Atom {
   fillText(ctx, name, size) {
     if (this.isMerged) {
       ctx.fillText('H', size / 2, size / 2);
-      ctx.font = 18 * this.getScale() + 'px Arial';
-      ctx.fillText('2', size, Math.floor(size * (13 / 24)));
+      ctx.font = 18 * this.getScale() + 'px sans-serif';
+      ctx.fillText('2', size, Math.floor(size * (13 / 23)));
       return;
     }
 
