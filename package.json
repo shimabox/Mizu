@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
+    "test:coverage": "jest --coverage",
     "format": "prettier --config .prettierrc.yml --check './**/*.{js,ts}'",
     "format:fix": "prettier --config .prettierrc.yml --write './**/*.{js,ts}'",
     "lint": "eslint './**/*.{js,ts}'",
