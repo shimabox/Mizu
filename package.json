@@ -1,6 +1,6 @@
 {
   "name": "mizu",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "`Mizu` is a joke script that simulates water(H2o) generation in JavaScript.",
   "main": "index.js",
   "type": "module",
@@ -11,7 +11,7 @@
     "format:fix": "prettier --config .prettierrc.yml --write './**/*.{js,ts}'",
     "lint": "eslint './**/*.{js,ts}'",
     "lint:fix": "eslint './**/*.{js,ts}' --fix",
-    "ci": "run-s format lint test"
+    "ci": "run-s format lint test:coverage"
   },
   "keywords": [],
   "author": "",

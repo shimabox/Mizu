@@ -66,4 +66,4 @@ The following commands are executed in order.
 
 - npm run format
 - npm run lint
-- npm run test
+- npm run test:coverage
