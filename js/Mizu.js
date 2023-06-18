@@ -4,7 +4,7 @@ import { AtomFactory, Coordinate } from './Atom.js';
  * MizuSimulator クラス
  * 水(H2o)のシミュレーションを管理および制御するためのクラスです。
  */
-class MizuSimulator {
+export class MizuSimulator {
   /**
    * @type {H[]} 水素原子の配列
    */
@@ -227,14 +227,3 @@ class MizuSimulator {
     return 1.5;
   }
 }
-
-window.addEventListener('DOMContentLoaded', (e) => {
-  const simulator = new MizuSimulator();
-  const scale = simulator.getScale();
-  simulator.init(30 * scale, 50 * scale);
-  const loop = () => {
-    simulator.renderFrame();
-    requestAnimationFrame(loop);
-  };
-  loop();
-});
