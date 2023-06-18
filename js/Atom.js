@@ -419,7 +419,7 @@ export class AtomFactory {
    *
    * @param {string} name - インスタンス名
    * @param {number} width - 幅
-   * @param {number} width - 高さ
+   * @param {number} height - 高さ
    */
   static factory(name, width, height) {
     switch (name) {
