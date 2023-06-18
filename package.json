@@ -11,7 +11,7 @@
     "format:fix": "prettier --config .prettierrc.yml --write './**/*.{js,ts}'",
     "lint": "eslint './**/*.{js,ts}'",
     "lint:fix": "eslint './**/*.{js,ts}' --fix",
-    "ci": "run-s format lint test"
+    "ci": "run-s format lint test:coverage"
   },
   "keywords": [],
   "author": "",
