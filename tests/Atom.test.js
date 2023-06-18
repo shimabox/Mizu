@@ -74,3 +74,21 @@ describe('Oクラスのテスト', () => {
     expect(o.isHit(h.x, h.y, h.r)).toBe(false);
   });
 });
+
+describe('H2oクラスのテスト', () => {
+  test('水(H2o)は画面外に出ていなければ、isDeletedでfalseを返す', () => {
+    const h2o = AtomFactory.factory('H2o', 100, 100);
+    h2o.initializeDrawingProperties(new Coordinate(0, 0));
+    h2o.updatePosition();
+
+    expect(h2o.isDeleted()).toBe(false);
+  });
+
+  test('水(H2o)は画面外に出た場合、isDeletedでtrueを返す', () => {
+    const h2o = AtomFactory.factory('H2o', 100, 100);
+    h2o.initializeDrawingProperties(new Coordinate(0, 500));
+    h2o.updatePosition();
+
+    expect(h2o.isDeleted()).toBe(true);
+  });
+});
