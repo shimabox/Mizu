@@ -27,7 +27,7 @@ describe('Hクラスのテスト', () => {
     h1.initializeDrawingProperties(new Coordinate(50, 50));
 
     const h2 = AtomFactory.factory('H', 100, 100);
-    h2.initializeDrawingProperties(new Coordinate(62, 63));
+    h2.initializeDrawingProperties(new Coordinate(70, 70));
 
     expect(h1.isHit(h2.x, h2.y, h2.r)).toBe(false);
   });
