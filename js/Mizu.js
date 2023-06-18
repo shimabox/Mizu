@@ -106,17 +106,17 @@ class MizuSimulator {
       _h.updatePosition();
       _h.render(this.bufferCtx);
 
-      if (_h.isMerged) {
+      if (_h.isMerged()) {
         continue;
       }
 
       for (let j = i + 1; j < atoms.length; j++) {
         const target = atoms[j];
-        if (target.isMerged) {
+        if (target.isMerged()) {
           continue;
         }
         if (_h.isHit(target.x, target.y, target.r)) {
-          _h.isMerged = true;
+          _h.markAsMerged();
           _h.render(this.bufferCtx);
 
           // 衝突した水素原子は入れ替える
@@ -141,7 +141,7 @@ class MizuSimulator {
       _o.render(this.bufferCtx);
 
       for (const _h2 of hAtoms) {
-        if (!_h2.isMerged) {
+        if (!_h2.isMerged()) {
           continue;
         }
 

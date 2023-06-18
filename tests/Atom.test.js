@@ -31,4 +31,20 @@ describe('Hクラスのテスト', () => {
 
     expect(h1.isHit(h2.x, h2.y, h2.r)).toBe(false);
   });
+
+  test('水素原子は結合状態か判定可能', () => {
+    const h = AtomFactory.factory('H', 100, 100);
+    h.markAsMerged(); // 結合済みに変更
+    h.initializeDrawingProperties(new Coordinate(50, 50));
+
+    expect(h.isMerged()).toBe(true);
+    expect(h.getName()).toBe('H2');
+  });
+
+  test('水素原子は結合状態でなければ、isMergedはfalseを返す', () => {
+    const h = AtomFactory.factory('H', 100, 100);
+    h.initializeDrawingProperties(new Coordinate(50, 50));
+
+    expect(h.isMerged()).toBe(false);
+  });
 });

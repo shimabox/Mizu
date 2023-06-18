@@ -223,7 +223,7 @@ class H extends Atom {
   /**
    * @type {boolean} 結合済みかどうか
    */
-  isMerged = false;
+  #isMerged = false;
 
   /**
    * @type {string} 結合後の名前
@@ -256,7 +256,7 @@ class H extends Atom {
    * @returns {string} 水素原子の名前
    */
   getName() {
-    return this.isMerged ? this.#mergedName : this.name;
+    return this.#isMerged ? this.#mergedName : this.name;
   }
 
   /**
@@ -267,7 +267,7 @@ class H extends Atom {
    * @returns {string} Atomの色
    */
   getColor() {
-    return this.isMerged ? this.color : '#' + Math.random().toString(16).slice(-6);
+    return this.#isMerged ? this.color : '#' + Math.random().toString(16).slice(-6);
   }
 
   /**
@@ -279,7 +279,7 @@ class H extends Atom {
    * @param {number} size - テキストのサイズ
    */
   fillText(ctx, name, size) {
-    if (this.isMerged) {
+    if (this.#isMerged) {
       ctx.fillText('H', size / 2, size / 2);
       ctx.font = 18 * this.getScale() + 'px sans-serif';
       ctx.fillText('2', size, Math.floor(size * (13 / 23)));
@@ -298,12 +298,27 @@ class H extends Atom {
    * @param {CanvasRenderingContext2D} ctx - キャンバスの 2D 描画コンテキスト
    */
   render(ctx) {
-    if (this.isMerged && !this.#isH2Rendered) {
+    if (this.#isMerged && !this.#isH2Rendered) {
       // TODO: isH2Renderedでの制御はワークアラウンドっぽいのでなんとかしたい
       this.#isH2Rendered = true;
       this.initializeDrawingProperties(new Coordinate(this.x, this.y));
     }
     super.render(ctx);
+  }
+
+  /**
+   * 結合済みにする
+   */
+  markAsMerged() {
+    this.#isMerged = true;
+  }
+
+  /**
+   * 結合済みかどうか
+   * @returns {boolean}
+   */
+  isMerged() {
+    return this.#isMerged;
   }
 }
 
