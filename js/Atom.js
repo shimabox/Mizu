@@ -209,6 +209,10 @@ class Atom {
    * @param {CanvasRenderingContext2D} ctx - 描画コンテキスト
    */
   render(ctx) {
+    if (this.img.isMock) {
+      // mockであれば何もしない @see tests
+      return;
+    }
     ctx.drawImage(this.img, this.x, this.y);
   }
 }

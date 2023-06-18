@@ -16,6 +16,18 @@ describe('MizuSimulatorクラスのテスト', () => {
   let simulator;
 
   beforeEach(() => {
+    const createElement = document.createElement.bind(document);
+    document.createElement = (tagName) => {
+      // imgタグに関しては、context.drawImageに渡すと、
+      // `Image given has not completed loading`
+      // と怒られてしまうので、mockの目印となるような関数だけ生やしておく。
+      // context.drawImageを使わなくてもテストは可能。
+      if (tagName === 'img') {
+        return { isMock: jest.fn() };
+      }
+      return createElement(tagName);
+    };
+
     simulator = new MizuSimulator();
   });
 
@@ -45,5 +57,29 @@ describe('MizuSimulatorクラスのテスト', () => {
 
     // 不明なAtom名が渡されたらエラーが発生すること
     expect(() => simulator.createAtom('X')).toThrow();
+  });
+
+  test('水(H2o)の生成シミュレーションが可能', () => {
+    // 同じ座標に配置しておいて、H2になるように
+    const h1 = simulator.createAtom('H');
+    h1.initializeDrawingProperties(new Coordinate(0, 0));
+    const h2 = simulator.createAtom('H');
+    h2.initializeDrawingProperties(new Coordinate(0, 0));
+    // Oも同じ座標にしておいて、H2oが作成されるように
+    const o = simulator.createAtom('O');
+    o.initializeDrawingProperties(new Coordinate(0, 0));
+
+    simulator.add(h1);
+    simulator.add(h2);
+    simulator.add(o);
+
+    // 描画
+    simulator.renderFrame();
+
+    expect(simulator.h.length).toEqual(2);
+    expect(simulator.o.length).toEqual(1);
+    expect(simulator.h2o.length).toEqual(1); // H2oが発生していること
+    expect(h1.getName()).toBe('H2'); // indexが小さいものがH2になっているはず
+    expect(h2.getName()).toBe('H');
   });
 });

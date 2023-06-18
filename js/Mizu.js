@@ -1,4 +1,4 @@
-import { AtomFactory, Coordinate } from './Atom.js';
+import { AtomFactory, H, O, Coordinate } from './Atom.js';
 
 /**
  * MizuSimulator クラス
@@ -72,10 +72,24 @@ export class MizuSimulator {
    */
   init(hLength, oLength) {
     for (let i = 0; i < hLength; i++) {
-      this.h.push(this.createAtom('H'));
+      this.add(this.createAtom('H'));
     }
     for (let i = 0; i < oLength; i++) {
-      this.o.push(this.createAtom('O'));
+      this.add(this.createAtom('O'));
+    }
+  }
+
+  /**
+   * Atomを追加
+   * @param {Atom} atom
+   */
+  add(atom) {
+    if (atom instanceof H) {
+      this.h.push(atom);
+      return;
+    }
+    if (atom instanceof O) {
+      this.o.push(atom);
     }
   }
 
