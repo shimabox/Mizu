@@ -3,7 +3,10 @@ import { AtomFactory, Coordinate } from '../js/Atom.js';
 
 // テスト実行前に JSDOM環境を構築
 beforeAll(() => {
-  const dom = new JSDOM('<!DOCTYPE html><html><body><canvas id="myCanvas"></canvas></body></html>', { url: 'http://localhost' });
+  const dom = new JSDOM(
+    '<!DOCTYPE html><html><body><canvas id="myCanvas"></canvas></body></html>',
+    { url: 'http://localhost' }
+  );
   global.window = dom.window;
   global.document = window.document;
 });
