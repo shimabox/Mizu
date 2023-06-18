@@ -148,13 +148,15 @@ class MizuSimulator {
         if (_o.isHit(_h2.x, _h2.y, _h2.r)) {
           // 水になった酸素原子は詰め替える
           const oIndex = atoms.indexOf(_o);
-          if (oIndex >= 0) { // ループ中にすでに消えているケースがある
+          if (oIndex >= 0) {
+            // ループ中にすでに消えているケースがある
             atoms[oIndex] = this.createAtom('O');
           }
 
           // 水になった水素原子は詰め替える
           const h2Index = hAtoms.indexOf(_h2);
-          if (h2Index >= 0) { // ループ中にすでに消えているケースがある
+          if (h2Index >= 0) {
+            // ループ中にすでに消えているケースがある
             hAtoms[h2Index] = this.createAtom('H');
           }
           h2oAtoms.push(this.createAtom('H2o', new Coordinate(_o.x, _o.y)));
