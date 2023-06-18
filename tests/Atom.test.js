@@ -19,6 +19,7 @@ describe('Hクラスのテスト', () => {
     const h2 = AtomFactory.factory('H', 100, 100);
     h2.initializeDrawingProperties(new Coordinate(62, 62));
 
+    // TODO: isHitはAtomを引数にしてどうにかしたい。そうしないとどのAtomとも衝突判定できる。
     expect(h1.isHit(h2.x, h2.y, h2.r)).toBe(true);
   });
 
@@ -29,6 +30,7 @@ describe('Hクラスのテスト', () => {
     const h2 = AtomFactory.factory('H', 100, 100);
     h2.initializeDrawingProperties(new Coordinate(70, 70));
 
+    // TODO: isHitはAtomを引数にしてどうにかしたい。そうしないとどのAtomとも衝突判定できる。
     expect(h1.isHit(h2.x, h2.y, h2.r)).toBe(false);
   });
 
@@ -46,5 +48,29 @@ describe('Hクラスのテスト', () => {
     h.initializeDrawingProperties(new Coordinate(50, 50));
 
     expect(h.isMerged()).toBe(false);
+  });
+});
+
+describe('Oクラスのテスト', () => {
+  test('酸素原子は水素原子と衝突した場合、isHitはtrueを返す', () => {
+    const o = AtomFactory.factory('O', 100, 100);
+    o.initializeDrawingProperties(new Coordinate(62, 62));
+
+    const h = AtomFactory.factory('H', 100, 100);
+    h.initializeDrawingProperties(new Coordinate(50, 50));
+
+    // TODO: isHitはAtomを引数にしてどうにかしたい。そうしないとどのAtomとも衝突判定できる。
+    expect(o.isHit(h.x, h.y, h.r)).toBe(true);
+  });
+
+  test('酸素原子は水素原子と衝突していない場合、isHitはfalseを返す', () => {
+    const o = AtomFactory.factory('O', 100, 100);
+    o.initializeDrawingProperties(new Coordinate(50, 50));
+
+    const h = AtomFactory.factory('H', 100, 100);
+    h.initializeDrawingProperties(new Coordinate(70, 70));
+
+    // TODO: isHitはAtomを引数にしてどうにかしたい。そうしないとどのAtomとも衝突判定できる。
+    expect(o.isHit(h.x, h.y, h.r)).toBe(false);
   });
 });
