@@ -4,7 +4,7 @@ import { AtomFactory, Coordinate } from './Atom.js';
  * MizuSimulator クラス
  * 水(H2o)のシミュレーションを管理および制御するためのクラスです。
  */
-class MizuSimulator {
+export class MizuSimulator {
   /**
    * @type {H[]} 水素原子の配列
    */
@@ -106,17 +106,17 @@ class MizuSimulator {
       _h.updatePosition();
       _h.render(this.bufferCtx);
 
-      if (_h.isMerged) {
+      if (_h.isMerged()) {
         continue;
       }
 
       for (let j = i + 1; j < atoms.length; j++) {
         const target = atoms[j];
-        if (target.isMerged) {
+        if (target.isMerged()) {
           continue;
         }
         if (_h.isHit(target.x, target.y, target.r)) {
-          _h.isMerged = true;
+          _h.markAsMerged();
           _h.render(this.bufferCtx);
 
           // 衝突した水素原子は入れ替える
@@ -141,7 +141,7 @@ class MizuSimulator {
       _o.render(this.bufferCtx);
 
       for (const _h2 of hAtoms) {
-        if (!_h2.isMerged) {
+        if (!_h2.isMerged()) {
           continue;
         }
 
@@ -227,14 +227,3 @@ class MizuSimulator {
     return 1.5;
   }
 }
-
-window.addEventListener('DOMContentLoaded', (e) => {
-  const simulator = new MizuSimulator();
-  const scale = simulator.getScale();
-  simulator.init(30 * scale, 50 * scale);
-  const loop = () => {
-    simulator.renderFrame();
-    requestAnimationFrame(loop);
-  };
-  loop();
-});
