@@ -219,7 +219,7 @@ class Atom {
  *
  * @extends {Atom}
  */
-class H extends Atom {
+export class H extends Atom {
   /**
    * @type {boolean} 結合済みかどうか
    */
@@ -328,7 +328,7 @@ class H extends Atom {
  *
  * @extends {Atom}
  */
-class O extends Atom {
+export class O extends Atom {
   /**
    * Oクラスのインスタンスを生成
    *
@@ -347,7 +347,7 @@ class O extends Atom {
  *
  * @extends {Atom}
  */
-class H2o extends Atom {
+export class H2o extends Atom {
   /**
    * @type {boolean} 削除済み(画面から見えなくなっている)かどうか
    */
