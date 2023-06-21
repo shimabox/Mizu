@@ -126,18 +126,16 @@ export class MizuSimulator {
 
       for (let j = i + 1; j < atoms.length; j++) {
         const target = atoms[j];
-        if (target.isMerged()) {
+        if (!_h.isHit(target)) {
           continue;
         }
-        if (_h.isHit(target.x, target.y, target.r)) {
-          _h.markAsMerged();
-          _h.render(this.bufferCtx);
+        _h.markAsMerged();
+        _h.render(this.bufferCtx);
 
-          // 衝突した水素原子は入れ替える
-          atoms[j] = this.createAtom('H');
+        // 衝突した水素原子は入れ替える
+        atoms[j] = this.createAtom('H');
 
-          break;
-        }
+        break;
       }
     }
   }
@@ -155,26 +153,23 @@ export class MizuSimulator {
       _o.render(this.bufferCtx);
 
       for (const _h2 of hAtoms) {
-        if (!_h2.isMerged()) {
+        if (!_o.isHit(_h2)) {
           continue;
         }
-
-        if (_o.isHit(_h2.x, _h2.y, _h2.r)) {
-          // 水になった酸素原子は詰め替える
-          const oIndex = atoms.indexOf(_o);
-          if (oIndex >= 0) {
-            // ループ中にすでに消えているケースがある
-            atoms[oIndex] = this.createAtom('O');
-          }
-
-          // 水になった水素原子は詰め替える
-          const h2Index = hAtoms.indexOf(_h2);
-          if (h2Index >= 0) {
-            // ループ中にすでに消えているケースがある
-            hAtoms[h2Index] = this.createAtom('H');
-          }
-          h2oAtoms.push(this.createAtom('H2o', new Coordinate(_o.x, _o.y)));
+        // 水になった酸素原子は詰め替える
+        const oIndex = atoms.indexOf(_o);
+        if (oIndex >= 0) {
+          // ループ中にすでに消えているケースがある
+          atoms[oIndex] = this.createAtom('O');
         }
+
+        // 水になった水素原子は詰め替える
+        const h2Index = hAtoms.indexOf(_h2);
+        if (h2Index >= 0) {
+          // ループ中にすでに消えているケースがある
+          hAtoms[h2Index] = this.createAtom('H');
+        }
+        h2oAtoms.push(this.createAtom('H2o', new Coordinate(_o.x, _o.y)));
       }
     }
   }
