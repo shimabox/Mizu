@@ -19,8 +19,18 @@ describe('Hクラスのテスト', () => {
     const h2 = AtomFactory.factory('H', 100, 100);
     h2.initializeDrawingProperties(new Coordinate(62, 62));
 
-    // TODO: isHitはAtomを引数にしてどうにかしたい。そうしないとどのAtomとも衝突判定できる。
-    expect(h1.isHit(h2.x, h2.y, h2.r)).toBe(true);
+    expect(h1.isHit(h2)).toBe(true);
+  });
+
+  test('水素原子は結合済みの水素原子と衝突する場合、isHitはfalseを返す', () => {
+    const h1 = AtomFactory.factory('H', 100, 100);
+    h1.initializeDrawingProperties(new Coordinate(50, 50));
+
+    const h2 = AtomFactory.factory('H', 100, 100);
+    h2.initializeDrawingProperties(new Coordinate(62, 62));
+    h2.markAsMerged();
+
+    expect(h1.isHit(h2)).toBe(false);
   });
 
   test('水素原子同士が衝突していない場合、isHitはfalseを返す', () => {
@@ -30,7 +40,6 @@ describe('Hクラスのテスト', () => {
     const h2 = AtomFactory.factory('H', 100, 100);
     h2.initializeDrawingProperties(new Coordinate(70, 70));
 
-    // TODO: isHitはAtomを引数にしてどうにかしたい。そうしないとどのAtomとも衝突判定できる。
     expect(h1.isHit(h2.x, h2.y, h2.r)).toBe(false);
   });
 
@@ -52,15 +61,25 @@ describe('Hクラスのテスト', () => {
 });
 
 describe('Oクラスのテスト', () => {
-  test('酸素原子は水素原子と衝突した場合、isHitはtrueを返す', () => {
+  test('酸素原子は結合状態の水素原子と衝突した場合、isHitはtrueを返す', () => {
+    const o = AtomFactory.factory('O', 100, 100);
+    o.initializeDrawingProperties(new Coordinate(62, 62));
+
+    const h = AtomFactory.factory('H', 100, 100);
+    h.initializeDrawingProperties(new Coordinate(50, 50));
+    h.markAsMerged();
+
+    expect(o.isHit(h)).toBe(true);
+  });
+
+  test('酸素原子は未結合状態の水素原子と衝突した場合、isHitはfalseを返す', () => {
     const o = AtomFactory.factory('O', 100, 100);
     o.initializeDrawingProperties(new Coordinate(62, 62));
 
     const h = AtomFactory.factory('H', 100, 100);
     h.initializeDrawingProperties(new Coordinate(50, 50));
 
-    // TODO: isHitはAtomを引数にしてどうにかしたい。そうしないとどのAtomとも衝突判定できる。
-    expect(o.isHit(h.x, h.y, h.r)).toBe(true);
+    expect(o.isHit(h)).toBe(false);
   });
 
   test('酸素原子は水素原子と衝突していない場合、isHitはfalseを返す', () => {
@@ -70,8 +89,17 @@ describe('Oクラスのテスト', () => {
     const h = AtomFactory.factory('H', 100, 100);
     h.initializeDrawingProperties(new Coordinate(70, 70));
 
-    // TODO: isHitはAtomを引数にしてどうにかしたい。そうしないとどのAtomとも衝突判定できる。
-    expect(o.isHit(h.x, h.y, h.r)).toBe(false);
+    expect(o.isHit(h)).toBe(false);
+  });
+
+  test('酸素原子は酸素原子と衝突した場合、isHitはfalseを返す', () => {
+    const o1 = AtomFactory.factory('O', 100, 100);
+    o1.initializeDrawingProperties(new Coordinate(62, 62));
+
+    const o2 = AtomFactory.factory('O', 100, 100);
+    o2.initializeDrawingProperties(new Coordinate(50, 50));
+
+    expect(o1.isHit(o2)).toBe(false);
   });
 });
 

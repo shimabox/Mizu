@@ -189,16 +189,14 @@ class Atom {
   /**
    * 他のAtomとの当たり判定
    *
-   * @param {number} targetX - 対象AtomのX座標
-   * @param {number} targetY - 対象AtomのY座標
-   * @param {number} targetR - 対象Atomの半径
+   * @param {Atom} target - 対象Atom
    * @return {boolean} Atomが衝突した場合はtrue、そうでない場合はfalse
    */
-  isHit(targetX, targetY, targetR) {
-    const dx = targetX - this.x; // ターゲットとのx座標の差分を計算
-    const dy = targetY - this.y; // ターゲットとのy座標の差分を計算
+  isHit(target) {
+    const dx = target.x - this.x; // ターゲットとのx座標の差分を計算
+    const dy = target.y - this.y; // ターゲットとのy座標の差分を計算
     const distance = Math.sqrt(dx * dx + dy * dy); // ターゲットとの距離を計算 (ピタゴラスの定理を使用)
-    const hitDistance = this.r + targetR; // 当たり判定の距離を計算 (2つのAtomの半径の和)
+    const hitDistance = this.r + target.r; // 当たり判定の距離を計算 (2つのAtomの半径の和)
 
     return distance < hitDistance; // 距離が当たり判定の距離より小さい場合、衝突していると判定
   }
@@ -324,6 +322,20 @@ export class H extends Atom {
   isMerged() {
     return this.#isMerged;
   }
+
+  /**
+   * 他のAtomとの当たり判定
+   *
+   * @param {Atom} target - 対象Atom
+   * @return {boolean} Atomが衝突した場合はtrue、そうでない場合はfalse
+   */
+  isHit(target) {
+    // Hじゃない or H2(結合済みのH)であれば何もしないでfalseを返す
+    if (!(target instanceof H) || target.isMerged()) {
+      return false;
+    }
+    return super.isHit(target);
+  }
 }
 
 /**
@@ -342,6 +354,20 @@ export class O extends Atom {
   constructor(sw, sh) {
     super(sw, sh);
     this.name = 'O';
+  }
+
+  /**
+   * 他のAtomとの当たり判定
+   *
+   * @param {Atom} target - 対象Atom
+   * @return {boolean} Atomが衝突した場合はtrue、そうでない場合はfalse
+   */
+  isHit(target) {
+    // Hじゃない or H2(結合済みのH)でなければ何もしないでfalseを返す
+    if (!(target instanceof H) || !target.isMerged()) {
+      return false;
+    }
+    return super.isHit(target);
   }
 }
 
