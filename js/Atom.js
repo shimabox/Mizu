@@ -77,6 +77,8 @@ class Atom {
     const name = this.getName();
     const color = this.getColor();
     const canvas = document.createElement('canvas');
+    canvas.width = 50;
+    canvas.height = 50;
 
     const ctx = canvas.getContext('2d');
     ctx.textAlign = 'center';
@@ -390,6 +392,9 @@ export class H2o extends Atom {
    */
   initializeDrawingProperties(coordinate) {
     const canvas = document.createElement('canvas');
+    canvas.width = 50;
+    canvas.height = 50;
+
     const ctx = canvas.getContext('2d');
     const color = '#007fff';
     const w = (Math.random() * 10 + 18) * this.getScale();

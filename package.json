@@ -1,6 +1,6 @@
 {
   "name": "mizu",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "`Mizu` is a joke script that simulates water(H2o) generation in JavaScript.",
   "main": "index.js",
   "type": "module",
