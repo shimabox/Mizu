@@ -9,6 +9,21 @@ export class Measurement {
    */
   #values = [];
 
+  /**
+   * @type {number}
+   */
+  #frameCnt = 1;
+
+  /**
+   * @type {number}
+   */
+  #elapsedTime = 0;
+
+  /**
+   * @type {string}
+   */
+  #time = '';
+
   constructor() {
     this.measurement = document.createElement('div');
     this.measurement.style.position = 'absolute';
@@ -42,8 +57,16 @@ export class Measurement {
     const start = performance.now();
     func();
     const end = performance.now();
-    const time = (end - start).toPrecision(4);
-    this.add(`${label}${time}ms`);
+
+    this.#elapsedTime += parseInt(end, 10) - parseInt(start, 10);
+    if (this.#frameCnt === 1 || this.#frameCnt % 60 === 0) {
+      this.#time = (this.#elapsedTime / this.#frameCnt).toPrecision(4);
+      this.add(`${this.#time}ms`);
+    } else {
+      this.add(`${label}${this.#time}ms`);
+    }
+    this.#frameCnt++;
+
     return this;
   }
 
