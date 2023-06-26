@@ -35,7 +35,7 @@ export class Measurement {
    * @param {string} label
    * @returns {Measurement}
    */
-  measure(func, label) {
+  measure(func, label = '') {
     if (typeof func !== 'function') {
       throw new Error('Argument must be a function.');
     }
