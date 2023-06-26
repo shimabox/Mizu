@@ -26,6 +26,10 @@ http://127.0.0.1:8080
 
 ## Develop
 
+### Measurement
+
+http://127.0.0.1:8080?m=1
+
 ### Run test (by jest)
 
 ```sh
