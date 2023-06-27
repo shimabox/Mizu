@@ -3,11 +3,6 @@
  */
 class Atom {
   /**
-   * @type {CanvasRenderingContext2D} 描画コンテキスト
-   */
-  ctx;
-
-  /**
    * @type {number} x座標
    */
   x = 0;
@@ -38,16 +33,6 @@ class Atom {
   color = '';
 
   /**
-   * @type {HTMLImageElement} 画像要素
-   */
-  img;
-
-  /**
-   * @type {string} 名前
-   */
-  name = '';
-
-  /**
    * @type {number} x軸の速度
    */
   #vx = 0;
@@ -74,36 +59,17 @@ class Atom {
    * @param {Coordinate} coordinate - 座標
    */
   initializeDrawingProperties(coordinate) {
-    const name = this.getName();
-    const color = this.getColor();
     const canvas = document.createElement('canvas');
-    canvas.width = 50;
-    canvas.height = 50;
-
     const ctx = canvas.getContext('2d');
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
     ctx.font = 24 * this.getScale() + 'px sans-serif';
-    ctx.fillStyle = color;
-    ctx.shadowColor = '#888';
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
-    ctx.shadowBlur = 1;
+    const txtSize = ctx.measureText(this.getName()).width;
 
-    const txtSize = ctx.measureText(name).width;
-    this.fillText(ctx, name, txtSize);
-
-    const img = document.createElement('img');
-    img.src = canvas.toDataURL();
-
-    this.ctx = ctx;
     this.x = coordinate.x;
     this.y = coordinate.y;
     this.w = txtSize;
     this.h = txtSize;
     this.r = txtSize / 2;
-    this.color = color;
-    this.img = img;
+    this.color = this.getColor();
   }
 
   /**
@@ -142,10 +108,10 @@ class Atom {
    *
    * @param {CanvasRenderingContext2D} ctx - 描画コンテキスト
    * @param {string} name - 描画するテキスト
-   * @param {number} size - テキストのサイズ
+   * @param {{ size: number, x: number, y: number }} props - 描画用プロパティ{ size: 文字の幅, x: x座標, y: y座標 }
    */
-  fillText(ctx, name, size) {
-    ctx.fillText(name, size, size);
+  fillText(ctx, name, props) {
+    ctx.fillText(name, props.x, props.y);
   }
 
   /**
@@ -209,11 +175,16 @@ class Atom {
    * @param {CanvasRenderingContext2D} ctx - 描画コンテキスト
    */
   render(ctx) {
-    if (this.img.isMock) {
-      // mockであれば何もしない @see tests
-      return;
-    }
-    ctx.drawImage(this.img, this.x, this.y);
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = 24 * this.getScale() + 'px sans-serif';
+    ctx.fillStyle = this.color;
+    ctx.shadowColor = '#888';
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 1;
+    ctx.shadowBlur = 1;
+
+    this.fillText(ctx, this.getName(), { size: this.w, x: this.x, y: this.y });
   }
 }
 
@@ -280,17 +251,17 @@ export class H extends Atom {
    *
    * @param {CanvasRenderingContext2D} ctx - キャンバスのコンテキスト
    * @param {string} name - 描画するテキスト
-   * @param {number} size - テキストのサイズ
+   * @param {{ size: number, x: number, y: number }} props - 描画用プロパティ{ size: 文字の幅, x: x座標, y: y座標 }
    */
-  fillText(ctx, name, size) {
+  fillText(ctx, name, props) {
     if (this.#isMerged) {
-      ctx.fillText('H', size / 2, size / 2);
+      ctx.fillText('H', props.x - props.size / 2, props.y);
       ctx.font = 18 * this.getScale() + 'px sans-serif';
-      ctx.fillText('2', size, Math.floor(size * (13 / 23)));
+      ctx.fillText('2', props.x, props.y + 2);
       return;
     }
 
-    ctx.fillText(name, size, size);
+    ctx.fillText(name, props.x, props.y);
   }
 
   /**
@@ -391,39 +362,36 @@ export class H2o extends Atom {
    * @param {Coordinate} coordinate - 座標
    */
   initializeDrawingProperties(coordinate) {
-    const canvas = document.createElement('canvas');
-    canvas.width = 50;
-    canvas.height = 50;
-
-    const ctx = canvas.getContext('2d');
-    const color = '#007fff';
     const w = (Math.random() * 10 + 18) * this.getScale();
-    const offset = w * 0.4;
-    const gx = w / 2 - offset;
-    const gy = w / 2 - offset;
-    const gr = w / 2 + offset;
-    const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, gr);
+    this.x = coordinate.x;
+    this.y = coordinate.y;
+    this.w = w;
+    this.h = w;
+  }
 
-    ctx.arc(w / 2, w / 2, w / 2, 0, Math.PI * 2, true);
-    ctx.fillStyle = color;
-    ctx.globalAlpha = 0.6;
+  /**
+   * 水分子を描画
+   *
+   * @param {CanvasRenderingContext2D} ctx - 描画コンテキスト
+   */
+  render(ctx) {
+    const offset = this.w * 0.4;
+    const gx = this.x - offset;
+    const gy = this.y - offset;
+    const gr = this.w / 2 + offset;
+    const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, gr);
+    grad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+    grad.addColorStop(1, 'rgba(0, 127, 255, 1)');
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.w / 2, 0, Math.PI * 2, true);
+    ctx.fillStyle = 'rgba(0, 127, 255, 0.6)';
     ctx.shadowColor = '#007fff';
     ctx.shadowOffsetX = 1;
     ctx.shadowOffsetY = 1;
-    grad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
-    grad.addColorStop(1, 'rgba(0, 127, 255, 1)');
     ctx.fillStyle = grad;
     ctx.fill();
-
-    const img = document.createElement('img');
-    img.src = canvas.toDataURL();
-
-    this.ctx = ctx;
-    this.x = coordinate.x;
-    this.y = coordinate.y;
-    this.w = this.h = w;
-    this.color = color;
-    this.img = img;
+    ctx.closePath();
   }
 
   /**
