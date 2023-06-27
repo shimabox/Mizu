@@ -8,6 +8,10 @@
 
 https://shimabox.github.io/Mizu/
 
+**Measurement**
+
+https://shimabox.github.io/Mizu/?m=1
+
 ## Run
 
 - node
