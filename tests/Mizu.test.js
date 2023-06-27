@@ -16,18 +16,6 @@ describe('MizuSimulatorクラスのテスト', () => {
   let simulator;
 
   beforeEach(() => {
-    const createElement = document.createElement.bind(document);
-    document.createElement = (tagName) => {
-      // imgタグに関しては、context.drawImageに渡すと、
-      // `Image given has not completed loading`
-      // と怒られてしまうので、mockの目印となるような関数だけ生やしておく。
-      // context.drawImageを使わなくてもテストは可能。
-      if (tagName === 'img') {
-        return { isMock: jest.fn() };
-      }
-      return createElement(tagName);
-    };
-
     simulator = new MizuSimulator();
   });
 
